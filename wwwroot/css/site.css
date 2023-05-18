@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -18,7 +18,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: rgba(188, 188, 188, 0.5);
 }
 
 .head {
@@ -33,7 +34,8 @@ body {
 
 .head-block {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     background-color: #94CE34;
     width: 768px;
     height: 300px;
@@ -59,4 +61,49 @@ body {
         margin: 2%;
         margin-top: 2%;
     }
+}
+
+.header-references {
+    display: flex;
+    width: 65%;
+    height: 62px;
+    background: #1E4002;
+    border-radius: 10px;
+}
+
+.reference-block {
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    border-left: 2px solid black;
+}
+
+.reference-block:first-child {
+    border-left: none;
+}
+
+.header-references-ref {
+    font-weight: 400;
+    font-size: 2em;
+    text-decoration: none;
+    color: white;
+}
+
+.social-media-block {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    max-width: 250px;
+    width: auto;
+    height: 40px;
+    background: #D1FFAA;
+    border-radius: 10px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.social-media-icon {
+    width: 30px;
+    height: 30px;
 }
