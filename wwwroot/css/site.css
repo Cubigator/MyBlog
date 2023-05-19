@@ -90,6 +90,12 @@ body {
     color: white;
 }
 
+    .header-references-ref:hover {
+        color: #84A15F;
+        color: forestgreen;
+    }
+
+
 .social-media-block {
     display: flex;
     align-items: center;
