@@ -9,7 +9,7 @@ using MyBlog.Data;
 
 #nullable disable
 
-namespace MyBlog.Migrations
+namespace MyBlog.Data.Migrations
 {
     [DbContext(typeof(Context))]
     [Migration("20230520082059_version1")]
