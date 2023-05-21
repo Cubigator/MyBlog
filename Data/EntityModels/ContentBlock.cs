@@ -14,6 +14,8 @@ public class ContentBlock
     public string Content { get; set; } = null!;
     [Required, Column("content_type")]
     public ContentType ContentType { get; set; }
+    [Required, Column("serial_number")]
+    public int SerialNumber { get; set; }
 
     public Article Article { get; set; } = null!;
 }
