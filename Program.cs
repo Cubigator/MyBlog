@@ -1,4 +1,5 @@
 using MyBlog.Data;
+using MyBlog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<Context>();
+
+builder.Services.AddDbRepositories();
 
 var app = builder.Build();
 
