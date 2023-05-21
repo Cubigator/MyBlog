@@ -4,6 +4,7 @@
     {
         Text,
         Image,
-        Subtitle
+        Subtitle,
+        Code
     }
 }
