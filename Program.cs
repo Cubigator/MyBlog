@@ -10,6 +10,12 @@ builder.Services.AddDbContext<Context>();
 
 builder.Services.AddDbRepositories();
 
+builder.Host.UseDefaultServiceProvider(options =>
+{
+    options.ValidateScopes = true;
+    options.ValidateOnBuild = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
