@@ -4,7 +4,25 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    @{
+        foreach (var article in Model.Articles)
+        {
+            <a class="article-reference" href="#">
+                <div class="article-card">
+                    @if (article.Image != null)
+                    {
+                        <img class="article-image" src="@article.Image">
+                    }
+                    else
+                    {
+                        <br />
+                    }
+                    <p class="article-header">@article.Header</p>
+                    <p class="article-introduction">@article.Introduction</p>
+                    <p class="article-date">@article.LastModifiedDate.ToShortDateString()</p>
+                </div>
+            </a>
+        }
+    }
 </div>
