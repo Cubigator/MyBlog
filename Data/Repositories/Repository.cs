@@ -35,7 +35,7 @@ namespace MyBlog.Data.Repositories
 
         public async Task<T?> GetByIdAsync(int id)
         {
-            return await _context.FindAsync<T>();
+            return await _context.FindAsync<T>(id);
         }
 
         public async Task UpdateAsync(T model)

@@ -8,7 +8,7 @@
     @{
         foreach (var article in Model.Articles)
         {
-            <a class="article-reference" href="#">
+            <a class="article-reference" asp-page="/ArticlePage" asp-route-id="@article.Id">
                 <div class="article-card">
                     @if (article.Image != null)
                     {
