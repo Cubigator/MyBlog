@@ -1,6 +1,23 @@
 ﻿@page "/article/{id:int}"
 @model MyBlog.Pages.ArticlePageModel
 @{
-    <p>Hello</p>
-    <h1>@Model.Article.Introduction</h1>
+    foreach(var block in Model.Blocks)
+    {
+        if(block.ContentType == Data.EntityModels.ContentType.Text)
+        {
+            <p>@block.Content</p>
+        }
+        else if (block.ContentType == Data.EntityModels.ContentType.Subtitle)
+        {
+            <h3>@block.Content</h3>
+        }
+        else if (block.ContentType == Data.EntityModels.ContentType.Image)
+        {
+            <img src="@block.Content"/>
+        }
+        else if (block.ContentType == Data.EntityModels.ContentType.Code)
+        {
+            <code>@block.Content</code>
+        }
+    }
 }
