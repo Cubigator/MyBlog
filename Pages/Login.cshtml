@@ -1,0 +1,21 @@
+﻿@page
+@model MyBlog.Pages.LoginModel
+@{
+    Layout = null;
+}
+
+<form method="post">
+    <div>
+        <label>Email:</label>
+        <input type="email" name="email"/>
+    </div>
+    <br>
+    <div>
+        <label>Пароль:</label>
+        <input type="password" name="password" />
+    </div>
+    <br>
+    <div>
+        <button type="submit">Войти</button>
+    </div>
+</form>

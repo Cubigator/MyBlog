@@ -20,7 +20,14 @@
                     <a asp-page="/Index" class="header-references-ref">Home</a>
                 </div>
                 <div class="reference-block">
-                    <a asp-page="#" class="header-references-ref">Profile</a>
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        <a asp-page="#" class="header-references-ref">Profile</a>
+                    }
+                    else
+                    {
+                        <a asp-page="/Login" class="header-references-ref">Sign In</a>
+                    }
                 </div>
             </div>
             <div class="social-media-block">
