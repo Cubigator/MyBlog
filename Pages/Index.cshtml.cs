@@ -8,20 +8,20 @@ namespace MyBlog.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private IRepository<Article> _articleRepository;
+        private ArticlesRepository _articlesRepository;
 
         public List<ArticleViewModel> Articles { get; set; } = new List<ArticleViewModel>();
         public List<ContentBlock> Blocks { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, IRepository<Article> repository)
+        public IndexModel(ILogger<IndexModel> logger, ArticlesRepository repository)
         {
             _logger = logger;
-            _articleRepository = repository;
+            _articlesRepository = repository;
         }
 
         public async Task OnGet()
         {
-            Articles = (await _articleRepository.GelAllAsync()).Select(item =>
+            Articles = (await _articlesRepository.GelAllAsync()).Select(item =>
                 new ArticleViewModel()
                 {
                     Id = item.Id,
