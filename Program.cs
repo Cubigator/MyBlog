@@ -2,6 +2,7 @@ using MyBlog.Data;
 using MyBlog;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using MyBlog.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<Context>();
-
 builder.Services.AddDbRepositories();
+
+builder.Services.AddScoped<EncryptorService>();
 
 builder.Host.UseDefaultServiceProvider(options =>
 {

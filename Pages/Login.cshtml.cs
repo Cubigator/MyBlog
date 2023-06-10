@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyBlog.Data.EntityModels;
 using MyBlog.Data.Repositories;
+using MyBlog.Services;
 using System.Security.Claims;
 
 namespace MyBlog.Pages
@@ -11,11 +12,13 @@ namespace MyBlog.Pages
     public class LoginModel : PageModel
     {
         private List<User> _users = null!;
-        private UsersRepository _usersRepository = null!;
+        private readonly UsersRepository _usersRepository = null!;
+        private readonly EncryptorService _encryptor = null!;
 
-        public LoginModel(UsersRepository usersRepository)
+        public LoginModel(UsersRepository usersRepository, EncryptorService encryptor)
         {
             _usersRepository = usersRepository;
+            _encryptor = encryptor;
         }
         public void OnGet()
         {
@@ -26,7 +29,9 @@ namespace MyBlog.Pages
         {
             _users = (await _usersRepository.GelAllAsync()).ToList();
 
-            var user = _users.FirstOrDefault(user => user.Email == model.Email && user.Password == model.Password);
+            var user = _users
+                .FirstOrDefault(user => user.Email == model.Email &&
+                user.Password == _encryptor.HashPassword(model.Password, user.Salt.ToString()));
 
             if (user is null)
                 return Unauthorized();

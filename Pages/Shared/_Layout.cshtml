@@ -22,7 +22,7 @@
                 <div class="reference-block">
                     @if (Context.User.Identity.IsAuthenticated)
                     {
-                        <a asp-page="#" class="header-references-ref">Profile</a>
+                        <a asp-page="/Profile/Index" class="header-references-ref">Profile</a>
                     }
                     else
                     {

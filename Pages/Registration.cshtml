@@ -1,0 +1,31 @@
+﻿@page
+@model MyBlog.Pages.RegistrationModel
+@{
+    Layout = null;
+}
+
+<form method="post">
+    <div>
+        <label>Email:</label>
+        <input type="email" name="email" />
+    </div>
+    <br>
+    <div>
+        <label>Имя:</label>
+        <input type="text" name="name" />
+    </div>
+    <br>
+    <div>
+        <label>Пароль:</label>
+        <input type="password" name="password" />
+    </div>
+    <br>
+    <div>
+        <label>Повторите пароль:</label>
+        <input type="password" name="repeatPassword" />
+    </div>
+    <br>
+    <div>
+        <button type="submit">Войти</button>
+    </div>
+</form>
