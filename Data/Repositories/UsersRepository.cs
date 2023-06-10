@@ -11,7 +11,7 @@ public class UsersRepository
         _context = context;
     }
 
-    public async Task AddArticleAsync(User model)
+    public async Task AddAsync(User model)
     {
         await _context.Users.AddAsync(model);
         await _context.SaveChangesAsync();

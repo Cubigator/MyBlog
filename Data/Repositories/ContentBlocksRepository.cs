@@ -11,7 +11,7 @@ public class ContentBlocksRepository
         _context = context;
     }
 
-    public async Task AddArticleAsync(ContentBlock model)
+    public async Task AddAsync(ContentBlock model)
     {
         await _context.ContentBlocks.AddAsync(model);
         await _context.SaveChangesAsync();

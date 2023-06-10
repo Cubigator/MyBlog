@@ -11,7 +11,7 @@ public class ArticlesRepository
         _context = context;
     }
 
-    public async Task AddArticleAsync(Article model)
+    public async Task AddAsync(Article model)
     {
         await _context.Articles.AddAsync(model);
         await _context.SaveChangesAsync();
