@@ -1,0 +1,14 @@
+﻿@page
+@model MyBlog.Pages.Profile.IndexModel
+@{
+}
+
+<div>
+    <p>Email: @Model.UserModel.Email</p>
+    <br />
+    <p>Имя: @Model.UserModel.Name</p>
+</div>
+
+<form method="post">
+    <button type="submit">Выйти</button>
+</form>
