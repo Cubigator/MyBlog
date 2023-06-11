@@ -1,6 +1,19 @@
 ﻿@page "/article/{id:int}"
 @model MyBlog.Pages.ArticlePageModel
 @{
+    if (Model.IsSelected != null)
+    {
+        <form method="post" asp-route-id="@Model.Article.Id"
+                            asp-route-isSelected="@Model.IsSelected">
+            @if(Model.IsSelected == true)
+            {
+                <button type="submit">Убрать из избранных</button>
+            }
+            else if(Model.IsSelected == false){
+                <button type="submit">В избранное</button>
+            }
+        </form>
+    }
     foreach(var block in Model.Blocks)
     {
         if(block.ContentType == Data.EntityModels.ContentType.Text)

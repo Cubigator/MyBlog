@@ -3,25 +3,33 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyBlog.Data.EntityModels;
 using MyBlog.Data.Repositories;
 using MyBlog.Pages.ViewModels;
+using System.Security.Claims;
 
 namespace MyBlog.Pages
 {
     public class ArticlePageModel : PageModel
     {
-        private ArticlesRepository _articlesRepository;
-        private ContentBlocksRepository _blocksRepository;
-        private TagsRepository _tagsRepository;
+        private readonly UsersRepository _usersRepository;
+        private readonly ArticlesRepository _articlesRepository;
+        private readonly ContentBlocksRepository _blocksRepository;
+        private readonly TagsRepository _tagsRepository;
+        private readonly SelectedArticlesRepository _selectedArticlesRepository;
 
         public ArticleViewModel Article { get; set; } = null!;
         public List<ContentBlockViewModel> Blocks { get; set; } = new List<ContentBlockViewModel>();
+        public bool? IsSelected { get; set; } = null;
 
         public ArticlePageModel(ArticlesRepository articlesRepository,
                                 ContentBlocksRepository blocksRepository,
-                                TagsRepository tagsRepository)
+                                TagsRepository tagsRepository,
+                                SelectedArticlesRepository selectedArticlesRepository,
+                                UsersRepository usersRepository)
         {
             _articlesRepository = articlesRepository;
             _blocksRepository = blocksRepository;
             _tagsRepository = tagsRepository;
+            _selectedArticlesRepository = selectedArticlesRepository;
+            _usersRepository = usersRepository;
         }
 
         public async Task<ActionResult> OnGet(int id)
@@ -54,7 +62,44 @@ namespace MyBlog.Pages
             })
                 .OrderBy(block => block.SerialNumber).ToList();
 
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                string userEmail = HttpContext.User.Claims
+                    .FirstOrDefault(claim => claim.Type == ClaimTypes.Email)!.Value;
+
+                var user = await _usersRepository.GetByEmail(userEmail);
+                IsSelected = await _selectedArticlesRepository
+                    .IsSelectedAsync(Article.Id, user.Id);
+            }
+
             return Page();
+        }
+
+        public async Task<ActionResult> OnPost(int id, bool isSelected)
+        {
+            string userEmail = HttpContext.User.Claims
+                    .FirstOrDefault(claim => claim.Type == ClaimTypes.Email)!.Value;
+
+            var user = await _usersRepository.GetByEmail(userEmail);
+
+            if (isSelected)
+            {
+                var selected = await _selectedArticlesRepository.GetByUserAndArticleAsync(user.Id, id);
+
+                if (selected != null)
+                    await _selectedArticlesRepository.DeleteAsync(selected);
+            }
+            else
+            {
+                SelectedArticle selected = new()
+                {
+                    ArticleId = id,
+                    UserId = user.Id,
+                    Date = DateTime.UtcNow,
+                };
+                await _selectedArticlesRepository.AddAsync(selected);
+            }
+            return Redirect($"/article/{id}");
         }
     }
 }
