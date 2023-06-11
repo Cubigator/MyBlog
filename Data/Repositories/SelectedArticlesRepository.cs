@@ -16,7 +16,7 @@ public class SelectedArticlesRepository
         await _context.SelectedArticles.AddAsync(model);
         await _context.SaveChangesAsync();
     }
-    public async Task Update(SelectedArticle model)
+    public async Task UpdateAsync(SelectedArticle model)
     {
         _context.SelectedArticles.Update(model);
         await _context.SaveChangesAsync();

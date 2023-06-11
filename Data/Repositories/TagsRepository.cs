@@ -16,7 +16,7 @@ public class TagsRepository
         await _context.Tags.AddAsync(model);
         await _context.SaveChangesAsync();
     }
-    public async Task Update(Tag model)
+    public async Task UpdateAsync(Tag model)
     {
         _context.Tags.Update(model);
         await _context.SaveChangesAsync();

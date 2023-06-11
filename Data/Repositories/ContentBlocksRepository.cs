@@ -16,7 +16,7 @@ public class ContentBlocksRepository
         await _context.ContentBlocks.AddAsync(model);
         await _context.SaveChangesAsync();
     }
-    public async Task Update(ContentBlock model)
+    public async Task UpdateAsync(ContentBlock model)
     {
         _context.ContentBlocks.Update(model);
         await _context.SaveChangesAsync();

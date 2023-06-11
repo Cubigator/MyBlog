@@ -16,7 +16,7 @@ public class ArticlesRepository
         await _context.Articles.AddAsync(model);
         await _context.SaveChangesAsync();
     }
-    public async Task Update(Article model)
+    public async Task UpdateAsync(Article model)
     {
         _context.Articles.Update(model);
         await _context.SaveChangesAsync();

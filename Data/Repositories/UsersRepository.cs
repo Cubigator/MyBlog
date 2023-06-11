@@ -16,7 +16,7 @@ public class UsersRepository
         await _context.Users.AddAsync(model);
         await _context.SaveChangesAsync();
     }
-    public async Task Update(User model)
+    public async Task UpdateAsync(User model)
     {
         _context.Users.Update(model);
         await _context.SaveChangesAsync();
@@ -30,7 +30,7 @@ public class UsersRepository
     {
         return await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
     }
-    public async Task<User?> GetByEmail(string email)
+    public async Task<User?> GetByEmailAsync(string email)
     {
         return await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
     }
