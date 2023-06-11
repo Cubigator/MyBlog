@@ -36,7 +36,11 @@ namespace MyBlog.Pages
             if (user is null)
                 return Unauthorized();
 
-            var claims = new List<Claim> { new Claim(ClaimTypes.Email, user.Email) };
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Status.ToString())
+            };
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
