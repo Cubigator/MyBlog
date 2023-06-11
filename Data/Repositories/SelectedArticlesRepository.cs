@@ -34,4 +34,26 @@ public class SelectedArticlesRepository
     {
         return await _context.SelectedArticles.ToListAsync();
     }
+
+    public async Task<IEnumerable<SelectedArticle>> GetByUserIdAsync(int userId)
+    {
+        return await _context.SelectedArticles
+            .Where(article => article.UserId == userId)
+            .ToListAsync();
+    }
+
+    public async Task<SelectedArticle?> GetByUserAndArticleAsync(int userId, int articleId)
+    {
+        return await _context.SelectedArticles
+            .Where(article => article.UserId == userId && article.ArticleId == articleId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> IsSelectedAsync(int articleId, int userId)
+    {
+        var selectedArticle = await _context.SelectedArticles
+            .FirstOrDefaultAsync(selectedArticle => selectedArticle.UserId == userId
+                                                    && selectedArticle.ArticleId == articleId);
+        return selectedArticle != null;
+    }
 }
