@@ -27,7 +27,7 @@ namespace MyBlog.Pages
         {
             if (ModelState.IsValid)
             {
-                if (await _usersRepository.GetByEmail(model.Email) != null) 
+                if (await _usersRepository.GetByEmailAsync(model.Email) != null) 
                     return Page();
 
                 if(model.RepeatPassword != model.Password)

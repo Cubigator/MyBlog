@@ -7,9 +7,9 @@
 <div class="container">
     @{
         foreach (var article in Model.Articles)
-        {
-            <a class="article-reference" asp-page="/ArticlePage" asp-route-id="@article.Id">
-                <div class="article-card">
+        {   
+            <div class="article-card">
+                <a class="article-reference" asp-page="/ArticlePage" asp-route-id="@article.Id">
                     @if (article.Image != null)
                     {
                         <img class="article-image" src="@article.Image">
@@ -21,8 +21,8 @@
                     <p class="article-header">@article.Header</p>
                     <p class="article-introduction">@article.Introduction</p>
                     <p class="article-date">@article.LastModifiedDate.ToShortDateString()</p>
-                </div>
-            </a>
+                </a>
+            </div>
         }
     }
 </div>
