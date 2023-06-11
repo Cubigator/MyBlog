@@ -1,0 +1,27 @@
+﻿@page
+@model MyBlog.Pages.Profile.ArticlesModel
+@{
+}
+<div class="container">
+    <h1>Мои избранные статьи:</h1>
+    @{
+        foreach (var article in Model.Articles)
+        {
+            <div class="article-card">
+                <a class="article-reference" asp-page="../ArticlePage" asp-route-id="@article.Id">
+                    @if (article.Image != null)
+                    {
+                        <img class="article-image" src="@article.Image">
+                    }
+                    else
+                    {
+                        <br />
+                    }
+                    <p class="article-header">@article.Header</p>
+                    <p class="article-introduction">@article.Introduction</p>
+                    <p class="article-date">@article.LastModifiedDate.ToShortDateString()</p>
+                </a>
+            </div>
+        }
+    }
+</div>

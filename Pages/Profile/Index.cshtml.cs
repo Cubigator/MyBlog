@@ -23,7 +23,7 @@ public class IndexModel : PageModel
         string userEmail = HttpContext.User.Claims
             .FirstOrDefault(claim => claim.Type == ClaimTypes.Email)!.Value;
 
-        var user = await _usersRepository.GetByEmail(userEmail);
+        var user = await _usersRepository.GetByEmailAsync(userEmail);
         if (user is null)
             return Redirect("/");
         UserModel = new UserViewModel()
