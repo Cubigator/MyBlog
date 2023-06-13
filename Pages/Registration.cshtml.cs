@@ -14,6 +14,9 @@ namespace MyBlog.Pages
     {
         private readonly UsersRepository _usersRepository;
         private readonly EncryptorService _encryptor;
+
+        [BindProperty]
+        public RegistrationUserModel InputModel { get; set; }
         public RegistrationModel(UsersRepository usersRepository, EncryptorService encryptor)
         {
             _usersRepository = usersRepository;
@@ -23,25 +26,25 @@ namespace MyBlog.Pages
         {
         }
 
-        public async Task<ActionResult> OnPost(RegistrationUserModel model)
+        public async Task<ActionResult> OnPost()
         {
             if (ModelState.IsValid)
             {
-                if (await _usersRepository.GetByEmailAsync(model.Email) != null) 
+                if (await _usersRepository.GetByEmailAsync(InputModel.Email) != null)
+                {
+                    ModelState.TryAddModelError("Email", "Пользователь уже существует");
                     return Page();
-
-                if(model.RepeatPassword != model.Password)
-                    return Page();
+                }
 
                 User user = new User()
                 {
-                    Email = model.Email,
-                    Name = model.Name,
+                    Email = InputModel.Email,
+                    Name = InputModel.Name,
                     Salt = Guid.NewGuid(),
                     Status = UserStatus.User
                 };
 
-                user.Password = _encryptor.HashPassword(model.Password, user.Salt.ToString());
+                user.Password = _encryptor.HashPassword(InputModel.Password, user.Salt.ToString());
 
                 await _usersRepository.AddAsync(user);
 
@@ -62,11 +65,15 @@ namespace MyBlog.Pages
     public class RegistrationUserModel
     {
         public string? Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
+        [EmailAddress(ErrorMessage = "Неверный формат")]
         public string Email { get; set; } = null!;
-        [Required]
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
+        [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*-]).{10,}$",
+            ErrorMessage = "Пароль слишком простой")]
         public string Password { get; set; } = null!;
-        [Required]
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
+        [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
         public string RepeatPassword { get; set; } = null!;
     }
 }
