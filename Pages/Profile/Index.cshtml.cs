@@ -36,9 +36,19 @@ public class IndexModel : PageModel
 
         return Page();
     }
-    public async Task<ActionResult> OnPost()
+    public async Task<ActionResult> OnPostSignOut()
     {
         await HttpContext.SignOutAsync();
         return Redirect("/");
+    }
+
+    public ActionResult OnPostEditProfile()
+    {
+        return Redirect("Profile/Edit");
+    }
+
+    public ActionResult OnPostSelectedArticles()
+    {
+        return Redirect("Profile/Articles");
     }
 }

@@ -3,12 +3,21 @@
 @{
 }
 
-<div>
-    <p>Email: @Model.UserModel.Email</p>
-    <br />
-    <p>Имя: @Model.UserModel.Name</p>
+<div class="row align-items-start">
+    <div class="col">
+        <p>Email: @Model.UserModel.Email</p>
+        <p>Имя: @Model.UserModel.Name</p>
+    </div>
+    <div class="col">
+        <form method="post">
+            <button class="btn btn-success type="submit" asp-page-handler="SelectedArticles">Мои избранные статьи</button>
+        </form>
+    </div>
 </div>
-
+<br />
 <form method="post">
-    <button type="submit">Выйти</button>
+    <button class="btn btn-info" type="submit" asp-page-handler="EditProfile">Редактировать профиль</button>
+    <br />
+    <br />
+    <button class="btn btn-secondary" type="submit">Выйти</button>
 </form>
