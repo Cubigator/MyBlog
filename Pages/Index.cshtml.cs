@@ -21,7 +21,7 @@ namespace MyBlog.Pages
 
         public async Task OnGet()
         {
-            Articles = (await _articlesRepository.GelAllAsync()).Select(item =>
+            Articles = (await _articlesRepository.GetAllAsync()).Select(item =>
                 new ArticleViewModel()
                 {
                     Id = item.Id,

@@ -30,7 +30,7 @@ namespace MyBlog.Pages.Profile
 
             var selectedArticles = await _selectedArticlesRepository.GetByUserIdAsync(user.Id);
 
-            Articles = (from article in await _articlesRepository.GelAllAsync()
+            Articles = (from article in await _articlesRepository.GetAllAsync()
                         join selectedArticle in selectedArticles on article.Id equals selectedArticle.ArticleId
                         select article)
                        .Select(selectedArticle => new ArticleViewModel()

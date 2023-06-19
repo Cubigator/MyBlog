@@ -50,7 +50,7 @@ namespace MyBlog.Pages
                 ReadingTime = model.ReadingTime,
             };
 
-            Blocks = (await _blocksRepository.GelAllAsync())
+            Blocks = (await _blocksRepository.GetAllAsync())
                 .Where(block => block.ArticleId == Article.Id)
                 .Select(block => new ContentBlockViewModel()
             {

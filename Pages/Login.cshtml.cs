@@ -32,7 +32,7 @@ namespace MyBlog.Pages
         {
             if (ModelState.IsValid)
             {
-                _users = (await _usersRepository.GelAllAsync()).ToList();
+                _users = (await _usersRepository.GetAllAsync()).ToList();
 
                 var user = _users
                     .FirstOrDefault(user => user.Email == InputModel.Email &&
