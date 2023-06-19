@@ -30,7 +30,7 @@ public class ContentBlocksRepository
     {
         return await _context.ContentBlocks.FirstOrDefaultAsync(contentBlock => contentBlock.Id == id);
     }
-    public async Task<IEnumerable<ContentBlock>> GelAllAsync()
+    public async Task<IEnumerable<ContentBlock>> GetAllAsync()
     {
         return await _context.ContentBlocks.ToListAsync();
     }

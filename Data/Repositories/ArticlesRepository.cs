@@ -30,7 +30,7 @@ public class ArticlesRepository
     {
         return await _context.Articles.FirstOrDefaultAsync(article => article.Id == id);
     }
-    public async Task<IEnumerable<Article>> GelAllAsync()
+    public async Task<IEnumerable<Article>> GetAllAsync()
     {
         return await _context.Articles.ToListAsync();
     }

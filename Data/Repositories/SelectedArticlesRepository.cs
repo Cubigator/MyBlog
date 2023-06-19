@@ -30,7 +30,7 @@ public class SelectedArticlesRepository
     {
         return await _context.SelectedArticles.FirstOrDefaultAsync(selectedArticle => selectedArticle.Id == id);
     }
-    public async Task<IEnumerable<SelectedArticle>> GelAllAsync()
+    public async Task<IEnumerable<SelectedArticle>> GetAllAsync()
     {
         return await _context.SelectedArticles.ToListAsync();
     }

@@ -30,7 +30,7 @@ public class TagsRepository
     {
         return await _context.Tags.FirstOrDefaultAsync(tag => tag.Id == id);
     }
-    public async Task<IEnumerable<Tag>> GelAllAsync()
+    public async Task<IEnumerable<Tag>> GetAllAsync()
     {
         return await _context.Tags.ToListAsync();
     }
