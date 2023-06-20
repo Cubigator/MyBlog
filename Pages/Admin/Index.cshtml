@@ -1,0 +1,36 @@
+﻿@page
+@model MyBlog.Pages.Admin.IndexModel
+@{
+    Layout = "Shared/_AdminLayout.cshtml";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Заголовок</th>
+            <th scope="col">Вступление</th>
+            <th scope="col">Создано</th>
+            <th scope="col">Изменено</th>
+            <th scope="col">Картинка</th>
+            <th scope="col">Время на чтение</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var article in Model.Articles)
+        {
+                <tr>
+                    <th scope="row">@article.Id</th>
+                    <td>@article.Header</td>
+                    <td>@article.Introduction...</td>
+                    <td>@article.CreationDate.ToShortDateString()</td>
+                    <td>@article.LastModifiedDate.ToShortDateString()</td>
+                    <td><img src="@article.Image" class="small-picture" /></td>
+                    <td>@article.ReadingTime</td>
+                    <td>
+                        <a asp-page="EditArticle" asp-route-articleId="@article.Id">Редактировать</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+﻿@page "{articleId:int}"
+@model MyBlog.Pages.Admin.EditArticleModel
+@{
+    Layout = "Shared/_AdminLayout.cshtml";
+}
+<br />
+<h1>Редактирование статьи @Model.Article.Header</h1>
+<br />
+
+@foreach (var block in Model.ContentBlocks)
+{
+    <br /> <br />
+    <div class="row align-items-start">
+        <div class="col">
+            @if (block.ContentType == Data.EntityModels.ContentType.Text)
+            {
+                <p>@block.Content</p>
+            }
+            else if (block.ContentType == Data.EntityModels.ContentType.Subtitle)
+            {
+                <h3>@block.Content</h3>
+            }
+            else if (block.ContentType == Data.EntityModels.ContentType.Image)
+            {
+                <img src="@block.Content" />
+            }
+            else if (block.ContentType == Data.EntityModels.ContentType.Code)
+            {
+                <pre>
+                    <code data-language="csharp">@block.Content</code>
+                </pre>
+            }
+        </div>
+        <div class="col align-self-center">
+            <a asp-page="EditBlock" asp-route-blockId="@block.Id">Редактировать блок</a>
+        </div>
+
+    </div>
+    <br />
+    <br />
+}
