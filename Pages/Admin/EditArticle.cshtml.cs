@@ -49,5 +49,20 @@ namespace MyBlog.Pages.Admin
                 }).ToList();
             return Page();
         }
+
+        public ActionResult OnPostUp()
+        {
+            return RedirectToPage();
+        }
+
+        public ActionResult OnPostDown()
+        {
+            return RedirectToPage();
+        }
+
+        public ActionResult OnPostDelete()
+        {
+            return RedirectToPage();
+        }
     }
 }

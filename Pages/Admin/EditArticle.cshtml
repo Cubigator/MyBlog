@@ -9,8 +9,19 @@
 
 @foreach (var block in Model.ContentBlocks)
 {
-    <br /> <br />
+    <br /> 
+    <hr />
     <div class="row align-items-start">
+        <div class="col-1 align-self-center">
+            <div>
+                <form method="post" asp-page-handler="Up">
+                    <button class="row">Вверх</button>
+                </form>
+                <form method="post" asp-page-handler="Down">
+                    <button class="row">Вниз</button>
+                </form>
+            </div>
+        </div>
         <div class="col">
             @if (block.ContentType == Data.EntityModels.ContentType.Text)
             {
@@ -31,11 +42,14 @@
                 </pre>
             }
         </div>
-        <div class="col align-self-center">
+        <div class="col-2 align-self-center text-end">
             <a asp-page="EditBlock" asp-route-blockId="@block.Id">Редактировать блок</a>
+        </div>
+        <div class="col-2 align-self-center text-end">
+            <form method="post" asp-page-handler="Delete">
+                <button class="btn btn-danger">Удалить</button>
+            </form>
         </div>
 
     </div>
-    <br />
-    <br />
 }
