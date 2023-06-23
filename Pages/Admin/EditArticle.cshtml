@@ -14,7 +14,7 @@
     <div class="row align-items-start">
         <div class="col-1 align-self-center">
             <div>
-                <form method="post" asp-page-handler="Up">
+                <form method="post" asp-page-handler="Up" asp-route-blockId="@block.Id" asp-route-articleId="@Model.Article.Id">
                     <button class="row">Вверх</button>
                 </form>
                 <form method="post" asp-page-handler="Down">

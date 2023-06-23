@@ -36,22 +36,38 @@ namespace MyBlog.Pages.Admin
                 Introduction = article.Introduction,
                 ReadingTime = article.ReadingTime
             };
-                
-            ContentBlocks = (await _contentBlocksRepository.GetAllAsync())
-                .Where(block => block.ArticleId == articleId)
-                .Select(block => new ContentBlockViewModel()
-                {
-                    Id = block.Id,
-                    ArticleId = block.ArticleId,
-                    Content = block.Content,
-                    ContentType = block.ContentType,
-                    SerialNumber = block.SerialNumber,
-                }).ToList();
+            await GetContentBlocks(articleId);
+
             return Page();
         }
 
-        public ActionResult OnPostUp()
+        public async Task<ActionResult> OnPostUp(int blockId, int articleId)
         {
+            await GetContentBlocks(articleId);
+            var block = ContentBlocks.First(block => block.Id == blockId);
+            int index = ContentBlocks.IndexOf(block);
+            if(index != 0)
+            {
+                ContentBlock upBlock = new()
+                {
+                    Id = block.Id,
+                    Content = block.Content,
+                    ContentType = block.ContentType,
+                    SerialNumber = ContentBlocks[index - 1].SerialNumber,
+                    ArticleId = block.ArticleId,
+                };
+                await _contentBlocksRepository.UpdateAsync(upBlock);
+                ContentBlock downBlock = new()
+                {
+                    Id = ContentBlocks[index - 1].Id,
+                    Content = ContentBlocks[index - 1].Content,
+                    ContentType = ContentBlocks[index - 1].ContentType,
+                    SerialNumber = block.SerialNumber,
+                    ArticleId = ContentBlocks[index - 1].ArticleId,
+                };
+
+                await _contentBlocksRepository.UpdateAsync(downBlock);
+            }
             return RedirectToPage();
         }
 
@@ -63,6 +79,20 @@ namespace MyBlog.Pages.Admin
         public ActionResult OnPostDelete()
         {
             return RedirectToPage();
+        }
+
+        private async Task GetContentBlocks(int articleId)
+        {
+            ContentBlocks = (await _contentBlocksRepository.GetAllAsync())
+                .Where(block => block.ArticleId == articleId)
+                .Select(block => new ContentBlockViewModel()
+                {
+                    Id = block.Id,
+                    ArticleId = block.ArticleId,
+                    Content = block.Content,
+                    ContentType = block.ContentType,
+                    SerialNumber = block.SerialNumber,
+                }).OrderBy(block => block.SerialNumber).ToList();
         }
     }
 }

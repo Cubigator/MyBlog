@@ -32,6 +32,6 @@ public class ContentBlocksRepository
     }
     public async Task<IEnumerable<ContentBlock>> GetAllAsync()
     {
-        return await _context.ContentBlocks.ToListAsync();
+        return await _context.ContentBlocks.AsNoTracking().ToListAsync();
     }
 }
