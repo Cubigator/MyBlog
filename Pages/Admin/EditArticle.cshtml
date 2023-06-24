@@ -7,6 +7,10 @@
 <h1>Редактирование статьи @Model.Article.Header</h1>
 <br />
 
+<form method="get" asp-page="AddBlock" asp-route-ArticleId="@Model.Article.Id" asp-route-LastSerialNumber="@(Model.ContentBlocks[Model.ContentBlocks.Count - 1].SerialNumber)">
+    <button class="btn btn-success">Добавить новый блок</button>
+</form>
+
 @foreach (var block in Model.ContentBlocks)
 {
     <br /> 
@@ -46,7 +50,7 @@
             <a asp-page="EditBlock" asp-route-blockId="@block.Id">Редактировать блок</a>
         </div>
         <div class="col-2 align-self-center text-end">
-            <form method="post" asp-page-handler="Delete">
+            <form method="post" asp-page-handler="Delete" asp-route-blockId="@block.Id">
                 <button class="btn btn-danger">Удалить</button>
             </form>
         </div>

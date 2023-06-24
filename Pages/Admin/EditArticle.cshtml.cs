@@ -101,8 +101,9 @@ namespace MyBlog.Pages.Admin
             return RedirectToPage();
         }
 
-        public ActionResult OnPostDelete()
+        public async Task<ActionResult> OnPostDelete(int blockId)
         {
+            await _contentBlocksRepository.DeleteAsync(new ContentBlock() { Id = blockId });
             return RedirectToPage();
         }
 

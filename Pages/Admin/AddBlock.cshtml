@@ -1,0 +1,13 @@
+﻿@page "{ArticleId:int}/{LastSerialNumber:int}"
+@model MyBlog.Pages.Admin.AddBlockModel
+@{
+    Layout = "Shared/_AdminLayout.cshtml";
+}
+
+<form method="post" asp-route-ArticleId="@Model.ArticleId" asp-route-LastSerialNumber="@Model.LastSerialNumber">
+    <select asp-items="@Model.ContentTypes" asp-for="@Model.InputModel.ContentType"></select>
+    <br />
+    <textarea asp-for="@Model.InputModel.Content"></textarea>
+    <br />
+    <button type="submit">Сохранить</button>
+</form>
