@@ -7,7 +7,7 @@
 <form method="post" asp-route-blockId="@Model.ContentBlock.Id">
     <select asp-items="@Model.ContentTypes" asp-for="@Model.InputModel.ContentType"></select>
     <br />
-    <input value="@Model.ContentBlock.Content" asp-for="@Model.InputModel.Content"/>
+    <textarea value="@Model.ContentBlock.Content" asp-for="@Model.InputModel.Content"/>
     <br />
     <button type="submit">Сохранить</button>
 </form>
