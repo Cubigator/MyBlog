@@ -71,8 +71,33 @@ namespace MyBlog.Pages.Admin
             return RedirectToPage();
         }
 
-        public ActionResult OnPostDown()
+        public async Task<ActionResult> OnPostDown(int blockId, int articleId)
         {
+            await GetContentBlocks(articleId);
+            var block = ContentBlocks.First(block => block.Id == blockId);
+            int index = ContentBlocks.IndexOf(block);
+            if (index < ContentBlocks.Count - 1)
+            {
+                ContentBlock downBlock = new()
+                {
+                    Id = block.Id,
+                    Content = block.Content,
+                    ContentType = block.ContentType,
+                    SerialNumber = ContentBlocks[index + 1].SerialNumber,
+                    ArticleId = block.ArticleId,
+                };
+                await _contentBlocksRepository.UpdateAsync(downBlock);
+                ContentBlock upBlock = new()
+                {
+                    Id = ContentBlocks[index + 1].Id,
+                    Content = ContentBlocks[index + 1].Content,
+                    ContentType = ContentBlocks[index + 1].ContentType,
+                    SerialNumber = block.SerialNumber,
+                    ArticleId = ContentBlocks[index + 1].ArticleId,
+                };
+
+                await _contentBlocksRepository.UpdateAsync(upBlock);
+            }
             return RedirectToPage();
         }
 
