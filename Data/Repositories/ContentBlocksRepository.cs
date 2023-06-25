@@ -28,7 +28,7 @@ public class ContentBlocksRepository
     }
     public async Task<ContentBlock?> GetByIdAsync(int id)
     {
-        return await _context.ContentBlocks.FirstOrDefaultAsync(contentBlock => contentBlock.Id == id);
+        return await _context.ContentBlocks.AsNoTracking().FirstOrDefaultAsync(contentBlock => contentBlock.Id == id);
     }
     public async Task<IEnumerable<ContentBlock>> GetAllAsync()
     {

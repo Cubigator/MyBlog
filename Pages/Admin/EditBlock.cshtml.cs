@@ -10,15 +10,17 @@ namespace MyBlog.Pages.Admin
     public class EditBlockModel : PageModel
     {
         private readonly ContentBlocksRepository _contentBlocksRepository;
+        private readonly ArticlesRepository _articlesRepository;
         public ContentBlockViewModel ContentBlock { get; set; } = null!;
         public SelectList ContentTypes { get; set; } = null!;
 
         [BindProperty]
         public InputBlockModel InputModel { get; set; } = null!;
 
-        public EditBlockModel(ContentBlocksRepository contentBlocksRepository)
+        public EditBlockModel(ContentBlocksRepository contentBlocksRepository, ArticlesRepository articlesRepository)
         {
             _contentBlocksRepository = contentBlocksRepository;
+            _articlesRepository = articlesRepository;
         }
         public async Task OnGet(int blockId)
         {
@@ -46,6 +48,11 @@ namespace MyBlog.Pages.Admin
             block!.ContentType = InputModel.ContentType;
             block.Content = InputModel.Content;
             await _contentBlocksRepository.UpdateAsync(block);
+
+            var article = await _articlesRepository.GetByIdAsync(block.ArticleId);
+            article!.LastModifiedDate = DateTime.UtcNow;
+            await _articlesRepository.UpdateAsync(article);
+
             return RedirectToPage("EditArticle", new { articleId = block.ArticleId });
         }
     }

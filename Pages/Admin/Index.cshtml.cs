@@ -20,6 +20,7 @@ namespace MyBlog.Pages.Admin
         public async Task OnGet()
         {
             Articles = (await _articlesRepository.GetAllAsync())
+                .OrderByDescending(article => article.CreationDate)
                 .Select(article => new ArticleViewModel()
                 {
                     Id = article.Id,

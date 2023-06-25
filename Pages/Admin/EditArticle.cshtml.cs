@@ -85,6 +85,10 @@ namespace MyBlog.Pages.Admin
                 };
 
                 await _contentBlocksRepository.UpdateAsync(downBlock);
+
+                var article = await _articlesRepository.GetByIdAsync(articleId);
+                article!.LastModifiedDate = DateTime.UtcNow;
+                await _articlesRepository.UpdateAsync(article);
             }
             return RedirectToPage();
         }
@@ -115,13 +119,23 @@ namespace MyBlog.Pages.Admin
                 };
 
                 await _contentBlocksRepository.UpdateAsync(upBlock);
+
+                var article = await _articlesRepository.GetByIdAsync(articleId);
+                article!.LastModifiedDate = DateTime.UtcNow;
+                await _articlesRepository.UpdateAsync(article);
             }
             return RedirectToPage();
         }
 
         public async Task<ActionResult> OnPostDelete(int blockId)
         {
+            int articleId = (await _contentBlocksRepository.GetByIdAsync(blockId))!.ArticleId;
             await _contentBlocksRepository.DeleteAsync(new ContentBlock() { Id = blockId });
+
+            var article = await _articlesRepository.GetByIdAsync(articleId);
+            article!.LastModifiedDate = DateTime.UtcNow;
+            await _articlesRepository.UpdateAsync(article);
+
             return RedirectToPage();
         }
 
