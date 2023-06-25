@@ -21,6 +21,11 @@ namespace MyBlog.Pages.Admin
         [BindProperty]
         public IFormFile InputFile { get; set; } = null!;
 
+        public int LastSerialNumber
+        {
+            get => (ContentBlocks.Count > 0) ? ContentBlocks[ContentBlocks.Count - 1].SerialNumber : 1;
+        }
+
         public EditArticleModel(ArticlesRepository articlesRepository, 
             ContentBlocksRepository contentBlocksRepository,
             IWebHostEnvironment environment)

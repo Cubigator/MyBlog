@@ -28,7 +28,7 @@
 
 <br />
 
-<form method="get" asp-page="AddBlock" asp-route-ArticleId="@Model.Article.Id" asp-route-LastSerialNumber="@(Model.ContentBlocks[Model.ContentBlocks.Count - 1].SerialNumber)">
+<form method="get" asp-page="AddBlock" asp-route-ArticleId="@Model.Article.Id" asp-route-LastSerialNumber="@Model.LastSerialNumber">
     <button class="btn btn-success">Добавить новый блок</button>
 </form>
 
