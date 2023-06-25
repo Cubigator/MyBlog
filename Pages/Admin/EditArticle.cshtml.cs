@@ -12,14 +12,22 @@ namespace MyBlog.Pages.Admin
     {
         private readonly ArticlesRepository _articlesRepository;
         private readonly ContentBlocksRepository _contentBlocksRepository;
+        private readonly IWebHostEnvironment _environment;
         public ArticleViewModel Article { get; set; } = null!;
         public List<ContentBlockViewModel> ContentBlocks { get; set; } = null!;
 
+        [BindProperty]
+        public ArticleInputModel InputModel { get; set; } = null!;
+        [BindProperty]
+        public IFormFile InputFile { get; set; } = null!;
+
         public EditArticleModel(ArticlesRepository articlesRepository, 
-            ContentBlocksRepository contentBlocksRepository)
+            ContentBlocksRepository contentBlocksRepository,
+            IWebHostEnvironment environment)
         {
             _articlesRepository = articlesRepository;
             _contentBlocksRepository = contentBlocksRepository;
+            _environment = environment;
         }
         public async Task<ActionResult> OnGet(int articleId)
         {
@@ -37,6 +45,11 @@ namespace MyBlog.Pages.Admin
                 ReadingTime = article.ReadingTime
             };
             await GetContentBlocks(articleId);
+
+            InputModel = new ArticleInputModel();
+            InputModel.Header = article.Header;
+            InputModel.ReadingTime = article.ReadingTime;
+            InputModel.Introduction = article.Introduction;
 
             return Page();
         }
@@ -107,6 +120,28 @@ namespace MyBlog.Pages.Admin
             return RedirectToPage();
         }
 
+        public async Task<ActionResult> OnPostUpdateArticle(int articleId)
+        {
+            var article = await _articlesRepository.GetByIdAsync(articleId);
+            article!.LastModifiedDate = DateTime.UtcNow;
+            article.Header = InputModel.Header;
+            article.Introduction = InputModel.Introduction;
+            article.ReadingTime = InputModel.ReadingTime;
+
+            if(InputFile != null)
+            {
+                string path = "/Files/" + InputFile.FileName;
+                using(FileStream fileStream = new(_environment.WebRootPath + path, FileMode.Create))
+                {
+                    await InputFile.CopyToAsync(fileStream);
+                }
+                article.Image = path;
+            }
+            await _articlesRepository.UpdateAsync(article);
+
+            return RedirectToPage();
+        }
+
         private async Task GetContentBlocks(int articleId)
         {
             ContentBlocks = (await _contentBlocksRepository.GetAllAsync())
@@ -120,5 +155,12 @@ namespace MyBlog.Pages.Admin
                     SerialNumber = block.SerialNumber,
                 }).OrderBy(block => block.SerialNumber).ToList();
         }
+    }
+
+    public class ArticleInputModel
+    {
+        public string Header { get; set; } = null!;
+        public string Introduction { get; set; } = null!;
+        public int? ReadingTime { get; set; }
     }
 }

@@ -22,25 +22,28 @@ namespace MyBlog.Pages.Admin
         }
         public async Task OnGet(int blockId)
         {
-            var block = await _contentBlocksRepository.GetByIdAsync(blockId)!;
+            var block = await _contentBlocksRepository.GetByIdAsync(blockId);
 
             ContentBlock = new ContentBlockViewModel()
             {
-                Id = block.Id,
+                Id = block!.Id,
                 ArticleId = block.ArticleId,
                 Content = block.Content,
                 ContentType = block.ContentType,
                 SerialNumber = block.SerialNumber,
             };
             var types = Enum.GetValues(typeof(ContentType));
-            ContentTypes = new SelectList(types, ContentBlock.ContentType);
+            ContentTypes = new SelectList(types);
 
+            InputModel = new InputBlockModel();
+            InputModel.Content = ContentBlock.Content;
+            InputModel.ContentType = ContentBlock.ContentType;
         }
 
         public async Task<ActionResult> OnPost(int blockId)
         {
-            var block = await _contentBlocksRepository.GetByIdAsync(blockId)!;
-            block.ContentType = InputModel.ContentType;
+            var block = await _contentBlocksRepository.GetByIdAsync(blockId);
+            block!.ContentType = InputModel.ContentType;
             block.Content = InputModel.Content;
             await _contentBlocksRepository.UpdateAsync(block);
             return RedirectToPage("EditArticle", new { articleId = block.ArticleId });

@@ -7,6 +7,27 @@
 <h1>Редактирование статьи @Model.Article.Header</h1>
 <br />
 
+<form method="post" asp-page-handler="UpdateArticle" enctype="multipart/form-data" asp-route-articleId="@Model.Article.Id">
+    <img src="@Model.Article.Image" />
+
+    <p>Заголовок: </p> 
+    <textarea asp-for="@Model.InputModel.Header" cols="50"></textarea>
+
+    <p>Вступление: </p> 
+    <textarea asp-for="@Model.InputModel.Introduction" cols="50" rows="10"></textarea>
+
+    <p>Картинка: </p> 
+    <input type="file" asp-for="InputFile" value="Загрузить" />
+
+    <p>Время на чтение: </p> 
+    <input type="number" value="@Model.Article.ReadingTime" asp-for="@Model.InputModel.ReadingTime" />
+
+    <br /> <br />
+    <button type="submit">Сохранить изменения</button>
+</form>
+
+<br />
+
 <form method="get" asp-page="AddBlock" asp-route-ArticleId="@Model.Article.Id" asp-route-LastSerialNumber="@(Model.ContentBlocks[Model.ContentBlocks.Count - 1].SerialNumber)">
     <button class="btn btn-success">Добавить новый блок</button>
 </form>
