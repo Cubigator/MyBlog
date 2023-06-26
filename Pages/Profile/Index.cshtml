@@ -3,12 +3,13 @@
 @{
 }
 
+
 <div class="row align-items-start">
-    <div class="col">
-        <p>Email: @Model.UserModel.Email</p>
-        <p>Имя: @Model.UserModel.Name</p>
+    <div class="col align-self-center">
+        <h6>Email: @Model.UserModel.Email</h6>
+        <h6>Имя: @Model.UserModel.Name</h6>
     </div>
-    <div class="col">
+    <div class="col text-end">
         <form method="post">
             <button class="btn btn-success type="submit" asp-page-handler="SelectedArticles">Мои избранные статьи</button>
         </form>
