@@ -2,58 +2,60 @@
 @model MyBlog.Pages.ArticlePageModel
 @{
     <div class="article-page">
-    @if (Model.IsSelected != null)
-    {
-        <form method="post" asp-route-id="@Model.Article.Id"
-                            asp-route-isSelected="@Model.IsSelected">
-            @if(Model.IsSelected == true)
-            {
-                <button type="submit" class="btn btn-outline-success">Убрать из избранных</button>
-            }
-            else if(Model.IsSelected == false){
-                <button type="submit" class="btn btn-outline-secondary">В избранное</button>
-            }
-        </form>
-    }
-    <div class="article">
-        <img src="@Model.Article.Image" class="article-image">
-        <div class="article-body">
-        <div class="row align-items-start">
-            <div class="col">
-                <p>Создано: @Model.Article.CreationDate.ToShortDateString()</p>
-                @if(Model.Article.CreationDate.Date != Model.Article.LastModifiedDate.Date){
-                    <p>Изменено: @Model.Article.LastModifiedDate.ToShortDateString()</p>
-                }
-            </div>
-            <div class="col right">
-                @if(Model.Article.ReadingTime != null)
+        @if (Model.IsSelected != null)
+        {
+            <form method="post" asp-route-id="@Model.Article.Id"
+                                asp-route-isSelected="@Model.IsSelected">
+                @if(Model.IsSelected == true)
                 {
-                    <p>Время на чтение: @Model.Article.ReadingTime мин.</p>
+                    <button type="submit" class="btn btn-outline-success">Убрать из избранных</button>
+                }
+                else if(Model.IsSelected == false){
+                    <button type="submit" class="btn btn-outline-secondary">В избранное</button>
+                }
+            </form>
+        }
+        <div class="article">
+            <img src="@Model.Article.Image" class="article-image">
+            <div class="article-body">
+                <div class="row align-items-start">
+                    <div class="col">
+                        <p>Создано: @Model.Article.CreationDate.ToShortDateString()</p>
+                        @if(Model.Article.CreationDate.Date != Model.Article.LastModifiedDate.Date){
+                            <p>Изменено: @Model.Article.LastModifiedDate.ToShortDateString()</p>
+                        }
+                    </div>
+                    <div class="col right">
+                        @if(Model.Article.ReadingTime != null)
+                        {
+                            <p>Время на чтение: @Model.Article.ReadingTime мин.</p>
+                        }
+                    </div>
+                </div>
+                @foreach(var block in Model.Blocks)
+                {
+                    @if(block.ContentType == Data.EntityModels.ContentType.Text)
+                    {
+                        <p class="article-text">@block.Content</p>
+                    }
+                    else if (block.ContentType == Data.EntityModels.ContentType.Subtitle)
+                    {
+                        <h3 class="article-subtitle">@block.Content</h3>
+                    }
+                    else if (block.ContentType == Data.EntityModels.ContentType.Image)
+                    {
+                        <div class="text-center">
+                            <img class="article-body-image" src="@block.Content"/>
+                        </div>
+                    }
+                    else if (block.ContentType == Data.EntityModels.ContentType.Code)
+                    {
+                        <pre>
+                            <code data-language="csharp" class="article-code">@block.Content</code>
+                        </pre>
+                    }
                 }
             </div>
         </div>
-        @foreach(var block in Model.Blocks)
-        {
-            if(block.ContentType == Data.EntityModels.ContentType.Text)
-            {
-                <p class="article-text">@block.Content</p>
-            }
-            else if (block.ContentType == Data.EntityModels.ContentType.Subtitle)
-            {
-                <h3 class="article-subtitle">@block.Content</h3>
-            }
-            else if (block.ContentType == Data.EntityModels.ContentType.Image)
-            {
-                <img src="@block.Content"/>
-            }
-            else if (block.ContentType == Data.EntityModels.ContentType.Code)
-            {
-                <pre>
-                    <code data-language="csharp" class="article-code">@block.Content</code>
-                </pre>
-            }
-        }
-            </div>
-    </div>
     </div>
 }
