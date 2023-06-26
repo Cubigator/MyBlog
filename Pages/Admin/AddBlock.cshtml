@@ -1,0 +1,20 @@
+﻿@page "{ArticleId:int}/{LastSerialNumber:int}"
+@model MyBlog.Pages.Admin.AddBlockModel
+@{
+    Layout = "Shared/_AdminLayout.cshtml";
+}
+
+<form method="post" asp-route-ArticleId="@Model.ArticleId" asp-route-LastSerialNumber="@Model.LastSerialNumber" enctype="multipart/form-data">
+    <select asp-items="@Model.ContentTypes" asp-for="@Model.InputModel.ContentType"></select>
+    <br />
+    <textarea asp-for="@Model.InputModel.Content"></textarea>
+    <br />
+    <p>Если загружаете картинку (в этом случае текст заполнять не нужно):</p>
+    <input type="file" asp-for="@Model.InputFile" />
+    <div>
+        <br />
+        @Html.ValidationMessage("File")
+    </div>
+    <br />
+    <button type="submit">Добавить</button>
+</form>

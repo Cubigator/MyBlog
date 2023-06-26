@@ -1,0 +1,19 @@
+﻿@page
+@model MyBlog.Pages.Admin.AddArticleModel
+@{
+    Layout = "Shared/_AdminLayout.cshtml";
+}
+
+<form method="post">
+    <br />
+    <label asp-for="@Model.InputModel.Header">Заголовок:</label>
+    <br />
+    <textarea asp-for="@Model.InputModel.Header" rows="3" cols="50"></textarea>
+    <br />
+    <br />
+    <label asp-for="@Model.InputModel.Introduction">Вступление:</label>
+    <br />
+    <textarea asp-for="@Model.InputModel.Introduction" rows="10" cols="50"></textarea>
+    <br />
+    <button type="submit">Создать статью</button>
+</form>

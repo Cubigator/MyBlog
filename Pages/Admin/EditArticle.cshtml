@@ -1,0 +1,83 @@
+﻿@page "{articleId:int}"
+@model MyBlog.Pages.Admin.EditArticleModel
+@{
+    Layout = "Shared/_AdminLayout.cshtml";
+}
+<br />
+<h1>Редактирование статьи @Model.Article.Header</h1>
+<br />
+
+<form method="post" asp-page-handler="UpdateArticle" enctype="multipart/form-data" asp-route-articleId="@Model.Article.Id">
+    <img src="@Model.Article.Image" />
+
+    <p>Заголовок: </p> 
+    <textarea asp-for="@Model.InputModel.Header" cols="50"></textarea>
+
+    <p>Вступление: </p> 
+    <textarea asp-for="@Model.InputModel.Introduction" cols="50" rows="10"></textarea>
+
+    <p>Картинка: </p> 
+    <input type="file" asp-for="InputFile" value="Загрузить" />
+
+    <p>Время на чтение: </p> 
+    <input type="number" value="@Model.Article.ReadingTime" asp-for="@Model.InputModel.ReadingTime" />
+
+    <br /> <br />
+    <button type="submit">Сохранить изменения</button>
+</form>
+
+<br />
+
+<form method="get" asp-page="AddBlock" asp-route-ArticleId="@Model.Article.Id" asp-route-LastSerialNumber="@Model.LastSerialNumber">
+    <button class="btn btn-success">Добавить новый блок</button>
+</form>
+
+@foreach (var block in Model.ContentBlocks)
+{
+    <br /> 
+    <hr />
+    <div class="row align-items-start">
+        <div class="col-1 align-self-center">
+            <div>
+                <form method="post" asp-page-handler="Up" asp-route-blockId="@block.Id" asp-route-articleId="@Model.Article.Id">
+                    <button class="row">Вверх</button>
+                </form>
+                <form method="post" asp-page-handler="Down" asp-route-blockId="@block.Id" asp-route-articleId="@Model.Article.Id">
+                    <button class="row">Вниз</button>
+                </form>
+            </div>
+        </div>
+        <div class="col">
+            @if (block.ContentType == Data.EntityModels.ContentType.Text)
+            {
+                <p>@block.Content</p>
+            }
+            else if (block.ContentType == Data.EntityModels.ContentType.Subtitle)
+            {
+                <h3>@block.Content</h3>
+            }
+            else if (block.ContentType == Data.EntityModels.ContentType.Image)
+            {
+                <img src="@block.Content" />
+            }
+            else if (block.ContentType == Data.EntityModels.ContentType.Code)
+            {
+                <pre>
+                    <code data-language="csharp">@block.Content</code>
+                </pre>
+            }
+        </div>
+        @if(block.ContentType != Data.EntityModels.ContentType.Image)
+        {
+            <div class="col-2 align-self-center text-end">
+                <a asp-page="EditBlock" asp-route-blockId="@block.Id">Редактировать блок</a>
+            </div>
+        }
+        <div class="col-2 align-self-center text-end">
+            <form method="post" asp-page-handler="Delete" asp-route-blockId="@block.Id">
+                <button class="btn btn-danger">Удалить</button>
+            </form>
+        </div>
+
+    </div>
+}

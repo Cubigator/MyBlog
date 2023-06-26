@@ -1,0 +1,17 @@
+﻿@page "{blockId:int}"
+@model MyBlog.Pages.Admin.EditBlockModel
+@{
+    Layout = "Shared/_AdminLayout.cshtml";
+}
+
+<p>
+    Картинку следует загружать отдельно!
+</p>
+
+<form method="post" asp-route-blockId="@Model.ContentBlock.Id">
+    <select asp-items="@Model.ContentTypes" asp-for="@Model.InputModel.ContentType"></select>
+    <br />
+    <textarea asp-for="@Model.InputModel.Content" rows="10" cols="50"></textarea>
+    <br />
+    <button type="submit">Сохранить</button>
+</form>

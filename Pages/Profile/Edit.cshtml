@@ -1,0 +1,17 @@
+﻿@page
+@model MyBlog.Pages.Profile.EditModel
+@{
+}
+
+<form method="post">
+    <div>
+        <label asp-for="@Model.UserModel.Name">Имя: </label>
+        <input asp-for="@Model.UserModel.Name" />
+    </div>
+    <br />
+    <div>
+        <label>Email: @Model.UserModel.Email</label>
+    </div>
+    <br />
+    <button type="submit">Сохранить изменения</button>
+</form>

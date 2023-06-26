@@ -1,0 +1,28 @@
+﻿@page
+@model MyBlog.Pages.LoginModel
+@{
+    Layout = null;
+}
+
+<form method="post">
+    <div>
+        <label asp-for="InputModel.Email">Email:</label>
+        <input asp-for="InputModel.Email" type="email"/>
+        <span asp-validation-for="InputModel.Email"></span>
+    </div>
+    <br>
+    <div>
+        <label asp-for="InputModel.Password">Пароль:</label>
+        <input asp-for="InputModel.Password" type="password" />
+        <span asp-validation-for="InputModel.Password"></span>
+    </div>
+    <br>
+    <div>
+        <button type="submit">Войти</button>
+    </div>
+    <div>
+        @Html.ValidationMessage("Email")
+    </div>
+</form>
+
+<p>Нет аккаунта? - <a asp-page="/registration">зарегистрируйтесь</a></p>
