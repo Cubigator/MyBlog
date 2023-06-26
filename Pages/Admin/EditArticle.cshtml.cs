@@ -129,9 +129,19 @@ public class EditArticleModel : PageModel
 
     public async Task<ActionResult> OnPostDelete(int blockId)
     {
-        int articleId = (await _contentBlocksRepository.GetByIdAsync(blockId))!.ArticleId;
-        await _contentBlocksRepository.DeleteAsync(new ContentBlock() { Id = blockId });
+        var block = await _contentBlocksRepository.GetByIdAsync(blockId);
+        int articleId = block!.ArticleId;
 
+        if (block.ContentType == ContentType.Image)
+        {
+            string path = _environment.WebRootPath + block.Content;
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+        }
+
+        await _contentBlocksRepository.DeleteAsync(new ContentBlock() { Id = blockId });
         var article = await _articlesRepository.GetByIdAsync(articleId);
         article!.LastModifiedDate = DateTime.UtcNow;
         await _articlesRepository.UpdateAsync(article);

@@ -11,11 +11,13 @@ namespace MyBlog.Pages.Admin
     public class IndexModel : PageModel
     {
         private readonly ArticlesRepository _articlesRepository;
+        private readonly IWebHostEnvironment _environment;
 
         public List<ArticleViewModel> Articles { get; set; } = null!;
-        public IndexModel(ArticlesRepository articlesRepository)
+        public IndexModel(ArticlesRepository articlesRepository, IWebHostEnvironment environment)
         {
             _articlesRepository = articlesRepository;
+            _environment = environment;
         }
         public async Task OnGet()
         {
@@ -36,6 +38,15 @@ namespace MyBlog.Pages.Admin
 
         public async Task<ActionResult> OnPostDeleteArticle(int articleId)
         {
+            string? path = await _articlesRepository.GetArticleImagePathByIdAsync(articleId);
+            if(path != null)
+            {
+                path = _environment.WebRootPath + path; 
+                if(System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+            }
             await _articlesRepository.DeleteAsync(new Article() { Id = articleId });
             return RedirectToPage();
         }

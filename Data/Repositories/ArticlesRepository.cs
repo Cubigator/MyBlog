@@ -26,6 +26,15 @@ public class ArticlesRepository
         _context.Articles.Remove(model);
         await _context.SaveChangesAsync();
     }
+    public async Task<string?> GetArticleImagePathByIdAsync(int id)
+    {
+        var article = await _context.Articles.AsNoTracking().FirstOrDefaultAsync(article => article.Id == id);
+
+        if (article is null)
+            return null;
+
+        return article.Image ?? null;
+    }
     public async Task<Article?> GetByIdAsync(int id)
     {
         return await _context.Articles.FirstOrDefaultAsync(article => article.Id == id);
