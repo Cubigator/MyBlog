@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyBlog.Data.Repositories;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using MyBlog.Data.EntityModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyBlog.Pages.Admin;
 
+[Authorize(Roles = nameof(UserStatus.Admin))]
 public class AddArticleModel : PageModel
 {
     private readonly ArticlesRepository _articlesRepository;
