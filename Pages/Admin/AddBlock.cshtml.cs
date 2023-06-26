@@ -10,6 +10,7 @@ namespace MyBlog.Pages.Admin
     {
         private readonly ContentBlocksRepository _contentBlocksRepository;
         private readonly ArticlesRepository _articlesRepository;
+        private readonly IWebHostEnvironment _environment;
 
         public SelectList ContentTypes { get; set; } = null!;
 
@@ -22,10 +23,16 @@ namespace MyBlog.Pages.Admin
         [BindProperty(SupportsGet = true)]
         public int LastSerialNumber { get; set; }
 
-        public AddBlockModel(ContentBlocksRepository contentBlocksRepository, ArticlesRepository articlesRepository)
+        [BindProperty]
+        public IFormFile InputFile { get; set; } = null!;
+
+        public AddBlockModel(ContentBlocksRepository contentBlocksRepository, 
+            ArticlesRepository articlesRepository,
+            IWebHostEnvironment environment)
         {
             _contentBlocksRepository = contentBlocksRepository;
             _articlesRepository = articlesRepository;
+            _environment = environment;
         }
 
         public void OnGet()
@@ -43,6 +50,23 @@ namespace MyBlog.Pages.Admin
                 SerialNumber = LastSerialNumber + 1,
                 ContentType = InputModel.ContentType
             };
+
+            if (InputModel.ContentType == ContentType.Image)
+            {
+                if (InputFile is null)
+                {
+                    ModelState.TryAddModelError("File", "Файл не загружен");
+                    return RedirectToPage();
+                }
+
+                string path = "/Files/" + InputFile.FileName;
+                using (FileStream fileStream = new(_environment.WebRootPath + path, FileMode.Create))
+                {
+                    await InputFile.CopyToAsync(fileStream);
+                }
+                block.Content = path;
+            }
+
             await _contentBlocksRepository.AddAsync(block);
             var article = await _articlesRepository.GetByIdAsync(ArticleId);
             article!.LastModifiedDate = DateTime.UtcNow;
