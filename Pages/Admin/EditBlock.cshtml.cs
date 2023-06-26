@@ -34,7 +34,8 @@ namespace MyBlog.Pages.Admin
                 ContentType = block.ContentType,
                 SerialNumber = block.SerialNumber,
             };
-            var types = Enum.GetValues(typeof(ContentType));
+            var types = Enum.GetValues<ContentType>().ToList();
+            types.Remove(ContentType.Image);
             ContentTypes = new SelectList(types);
 
             InputModel = new InputBlockModel();

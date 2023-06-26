@@ -67,9 +67,12 @@
                 </pre>
             }
         </div>
-        <div class="col-2 align-self-center text-end">
-            <a asp-page="EditBlock" asp-route-blockId="@block.Id">Редактировать блок</a>
-        </div>
+        @if(block.ContentType != Data.EntityModels.ContentType.Image)
+        {
+            <div class="col-2 align-self-center text-end">
+                <a asp-page="EditBlock" asp-route-blockId="@block.Id">Редактировать блок</a>
+            </div>
+        }
         <div class="col-2 align-self-center text-end">
             <form method="post" asp-page-handler="Delete" asp-route-blockId="@block.Id">
                 <button class="btn btn-danger">Удалить</button>
