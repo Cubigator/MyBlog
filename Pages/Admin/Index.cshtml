@@ -4,6 +4,12 @@
     Layout = "Shared/_AdminLayout.cshtml";
 }
 
+<br />
+<form method="get" asp-page="AddArticle">
+    <button class="btn btn-success">Добавить новую статью</button>
+</form>
+<br />
+
 <table class="table">
     <thead>
         <tr>
@@ -27,8 +33,13 @@
                     <td>@article.LastModifiedDate.ToShortDateString()</td>
                     <td><img src="@article.Image" class="small-picture" /></td>
                     <td>@article.ReadingTime</td>
-                    <td>
+                    <td> 
                         <a asp-page="EditArticle" asp-route-articleId="@article.Id">Редактировать</a>
+                    </td>
+                    <td>
+                        <form asp-page-handler="DeleteArticle" asp-route-articleId="@article.Id" class="align-self-center">
+                            <button class="btn btn-danger">Удалить</button>
+                        </form>
                     </td>
                 </tr>
         }

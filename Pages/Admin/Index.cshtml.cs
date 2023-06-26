@@ -33,5 +33,11 @@ namespace MyBlog.Pages.Admin
                     ReadingTime = article.ReadingTime
                 }).ToList();
         }
+
+        public async Task<ActionResult> OnPostDeleteArticle(int articleId)
+        {
+            await _articlesRepository.DeleteAsync(new Article() { Id = articleId });
+            return RedirectToPage();
+        }
     }
 }
